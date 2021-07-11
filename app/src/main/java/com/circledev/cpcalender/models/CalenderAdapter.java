@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.circledev.cpcalender.R;
+import com.circledev.cpcalender.utils.StringToDate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,11 +30,20 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.Calend
     }
 
     @Override
+    public int getItemViewType(int position) {
+        if(position%5 == 0) {
+            return 0;
+        }
+        return 1;
+    }
+
+    @Override
     public void onBindViewHolder(CalenderAdapter.CalenderViewHolder holder, int position) {
         AllContestsItem contestsItem =  contestsItemArrayList.get(position);
-        holder.siteNameTextView.setText( contestsItem.getSite());
-        holder.startTimeTextView.setText(contestsItem.getStart_time());
-        holder.endTimeTextView.setText(contestsItem.getEnd_time());
+        holder.contestNameTextView.setText( contestsItem.getName());
+        holder.startTimeTextView.setText(contestsItem.getStart_time().toString());
+        holder.endTimeTextView.setText(contestsItem.getEnd_time().toString());
+        holder.durationTextView.setText(contestsItem.getDuration());
     }
 
     @Override
@@ -43,6 +53,11 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.Calend
 
     public void updateCalender(List<AllContestsItem> updatedContestItems) {
        contestsItemArrayList.clear();
+       for(AllContestsItem item: updatedContestItems) {
+//          item.setStart_time(StringToDate.stringToDate(item.getStart_time()));
+//          item.setEnd_time(StringToDate.stringToDate(item.getEnd_time()));
+          item.setDuration(StringToDate.stringToHours(item.getDuration()));
+       }
        contestsItemArrayList.addAll(updatedContestItems);
 
        notifyDataSetChanged();
@@ -51,13 +66,24 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.Calend
     static class CalenderViewHolder extends RecyclerView.ViewHolder {
         TextView startTimeTextView;
         TextView endTimeTextView;
-        TextView siteNameTextView;
+        TextView contestNameTextView;
+        TextView durationTextView;
 
         public CalenderViewHolder(View itemView) {
             super(itemView);
             startTimeTextView = itemView.findViewById(R.id.start_time);
             endTimeTextView = itemView.findViewById(R.id.end_time);
-            siteNameTextView = itemView.findViewById(R.id.site_name);
+            contestNameTextView = itemView.findViewById(R.id.contest_name);
+            durationTextView = itemView.findViewById(R.id.duration_text_view);
+        }
+    }
+
+    static class DateViewHolder extends RecyclerView.ViewHolder {
+        TextView dateTextView;
+
+        public DateViewHolder(View itemView) {
+            super(itemView);
+            dateTextView = itemView.findViewById(R.id.date_text_view);
         }
     }
 

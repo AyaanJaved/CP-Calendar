@@ -1,10 +1,12 @@
 package com.circledev.cpcalender.models;
 
+import java.util.Date;
+
 public class AllContestsItem {
     String name;
     String url;
-    String start_time;
-    String end_time;
+    Date start_time;
+    Date end_time;
     String duration;
     String site;
     String in_24_hours;
@@ -26,19 +28,19 @@ public class AllContestsItem {
         this.url = url;
     }
 
-    public String getStart_time() {
+    public Date getStart_time() {
         return start_time;
     }
 
-    public void setStart_time(String start_time) {
+    public void setStart_time(Date start_time) {
         this.start_time = start_time;
     }
 
-    public String getEnd_time() {
+    public Date getEnd_time() {
         return end_time;
     }
 
-    public void setEnd_time(String end_time) {
+    public void setEnd_time(Date end_time) {
         this.end_time = end_time;
     }
 
