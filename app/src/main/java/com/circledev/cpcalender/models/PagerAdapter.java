@@ -11,13 +11,14 @@ import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.circledev.cpcalender.fragments.CodeChefFragment;
+import com.circledev.cpcalender.fragments.CodeForcesFragment;
 import com.circledev.cpcalender.fragments.MainFragment;
 
 import org.jetbrains.annotations.NotNull;
 
 
 public class PagerAdapter extends FragmentStateAdapter {
-
+    CalenderAdapter calenderAdapter;
 
     public PagerAdapter(@NonNull @NotNull FragmentManager fragmentManager, @NonNull @NotNull Lifecycle lifecycle) {
         super(fragmentManager, lifecycle);
@@ -32,6 +33,8 @@ public class PagerAdapter extends FragmentStateAdapter {
                 return new MainFragment();
             case 1:
                 return new CodeChefFragment();
+            case 2:
+                return new CodeForcesFragment();
             default:
                 return null;
         }
@@ -39,6 +42,6 @@ public class PagerAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        return 2;
+        return 3;
     }
 }

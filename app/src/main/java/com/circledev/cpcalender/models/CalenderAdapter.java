@@ -3,12 +3,15 @@ package com.circledev.cpcalender.models;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.circledev.cpcalender.R;
+import com.circledev.cpcalender.utils.CircularOutlineProvider;
+import com.circledev.cpcalender.utils.Constants;
 import com.circledev.cpcalender.utils.StringToDate;
 
 import java.util.ArrayList;
@@ -40,6 +43,24 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.Calend
         holder.startTimeTextView.setText(contestsItem.getStart_time().toString());
         holder.endTimeTextView.setText(contestsItem.getEnd_time().toString());
         holder.durationTextView.setText(contestsItem.getDuration());
+
+        switch (contestsItem.getSite()) {
+            case "CodeChef":
+                holder.imageView.setImageResource(R.drawable.codechef);
+                break;
+            case "CodeForces":
+                holder.imageView.setImageResource(R.drawable.codeforeces);
+                break;
+            case "TopCoder":
+                holder.imageView.setImageResource(R.drawable.topcoder);
+                break;
+            case "AtCoder":
+                holder.imageView.setImageResource(R.drawable.atcoder);
+                break;
+            case "HackerRank":
+                holder.imageView.setImageResource(R.drawable.hackerrank);
+                break;
+        }
     }
 
     @Override
@@ -62,6 +83,7 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.Calend
         TextView endTimeTextView;
         TextView contestNameTextView;
         TextView durationTextView;
+        ImageView imageView;
 
         public CalenderViewHolder(View itemView) {
             super(itemView);
@@ -69,6 +91,8 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.Calend
             endTimeTextView = itemView.findViewById(R.id.end_time);
             contestNameTextView = itemView.findViewById(R.id.contest_name);
             durationTextView = itemView.findViewById(R.id.duration_text_view);
+            imageView = itemView.findViewById(R.id.imageView);
+            imageView.setOutlineProvider(new CircularOutlineProvider());
         }
     }
 

@@ -13,11 +13,14 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.circledev.cpcalender.models.AllContestsItem;
+import com.circledev.cpcalender.models.CalenderAdapter;
 import com.circledev.cpcalender.networking.VolleySingleton;
+import com.circledev.cpcalender.utils.ContestFilter;
 import com.circledev.cpcalender.utils.StringToDate;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -25,6 +28,12 @@ import java.util.Objects;
 public class MainViewModel extends AndroidViewModel {
 //    List<AllContestsItem> mAllContestItems;
     private MutableLiveData<List<AllContestsItem>> mAllContestItems;
+    private MutableLiveData<List<AllContestsItem>> codeChefContestItems;
+    private MutableLiveData<List<AllContestsItem>> codeForcesContestItems;
+
+    private CalenderAdapter calenderAdapter ;
+    private CalenderAdapter codeChefAdapter;
+    private CalenderAdapter codeForcesAdapter;
 
     public MutableLiveData<List<AllContestsItem>> getmAllContestItems() {
         if(mAllContestItems == null) {
@@ -34,8 +43,49 @@ public class MainViewModel extends AndroidViewModel {
         return  mAllContestItems;
     }
 
+    public MutableLiveData<List<AllContestsItem>> getCodeChefContestItems() {
+        if(codeChefContestItems == null) {
+            codeChefContestItems = new MutableLiveData<>();
+        }
+
+        return  codeChefContestItems;
+    }
+
+    public MutableLiveData<List<AllContestsItem>> getCodeForcesContestItems() {
+        if(codeForcesContestItems == null) {
+            codeForcesContestItems = new MutableLiveData<>();
+        }
+
+        return  codeForcesContestItems;
+    }
+
+    public CalenderAdapter getCalenderAdapter() {
+        if(calenderAdapter == null) {
+            calenderAdapter = new CalenderAdapter();
+        }
+
+        return calenderAdapter;
+    }
+
+    public CalenderAdapter getCodeChefAdapter() {
+        if(codeChefAdapter == null) {
+            codeChefAdapter = new CalenderAdapter();
+        }
+        return codeChefAdapter;
+    }
+
+    public CalenderAdapter getCodeForcesAdapter() {
+        if(codeForcesAdapter == null) {
+            codeForcesAdapter = new CalenderAdapter();
+        }
+        return codeForcesAdapter;
+    }
+
     public MainViewModel(Application application) {
         super(application);
+        mAllContestItems = new MutableLiveData<>();
+        codeChefContestItems = new MutableLiveData<>();
+        codeForcesContestItems = new MutableLiveData<>();
         fetchRequest();
     }
 
@@ -49,11 +99,15 @@ public class MainViewModel extends AndroidViewModel {
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 response -> {
-                    List<AllContestsItem> initialList = Arrays.asList(gson.fromJson(response, AllContestsItem[].class));
+                    ArrayList<AllContestsItem> initialList = new ArrayList<>(Arrays.asList(gson.fromJson(response, AllContestsItem[].class)) );
+//                    new ArrayList(Arrays.asList(ids.toArray(new ChunkId[0])));
                     for(AllContestsItem item: initialList) {
                         item.setDuration(StringToDate.stringToHours(item.getDuration()));
                     }
                     mAllContestItems.postValue(initialList);
+                    codeChefContestItems.postValue(ContestFilter.codeChefFilter(initialList));
+                    codeForcesContestItems.postValue(ContestFilter.codeForcesFilter(initialList));
+
                     Log.i("PostActivity", "posts loaded.");
                     Log.i("PostActivity", "onResponse: ");
 //                        mCalenderAdapter.updateCalender(allContestsItems);
@@ -63,8 +117,4 @@ public class MainViewModel extends AndroidViewModel {
 
         VolleySingleton.getInstance(getApplication()).addToRequestQueue(stringRequest);
     }
-//    SavedStateHandle savedStateHandle;
-//    public MainViewModel(SavedStateHandle savedStateHandle) {
-//        this.savedStateHandle = savedStateHandle;
-//    }
 }

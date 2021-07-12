@@ -1,5 +1,6 @@
 package com.circledev.cpcalender;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.SavedStateViewModelFactory;
@@ -30,6 +31,8 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.text.ParseException;
 import java.util.Arrays;
 import java.util.List;
@@ -38,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
     TabLayout tabLayout;
     ViewPager2 viewPager2;
+    MainViewModel mainViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +54,34 @@ public class MainActivity extends AppCompatActivity {
 
         tabLayout = findViewById(R.id.tablayout);
 
-        new TabLayoutMediator(tabLayout, viewPager2, ((tab, position) -> tab.setText(""+position + 1))).attach();
+        mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+
+        mainViewModel.getmAllContestItems().observe(this, new Observer<List<AllContestsItem>>() {
+            @Override
+            public void onChanged(List<AllContestsItem> contestsItemList) {
+                mainViewModel.getCalenderAdapter().updateCalender(contestsItemList);
+                Log.i("mainfragment", "onChanged: update calender");
+            }
+        });
+
+        new TabLayoutMediator(tabLayout, viewPager2, new TabLayoutMediator.TabConfigurationStrategy() {
+            @Override
+            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
+                switch (position) {
+                    case 0:
+                        tab.setText("All Contests");
+                        break;
+                    case 1:
+                        tab.setText("CodeChef");
+                        break;
+                    case 2:
+                        tab.setText("CodeForces");
+                        break;
+                    default:
+                        //
+                }
+            }
+        }).attach();
     }
 
 }
