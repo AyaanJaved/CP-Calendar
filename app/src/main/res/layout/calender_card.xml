@@ -78,7 +78,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/end_time"
                 app:layout_constraintStart_toStartOf="@+id/start_time"
-                app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+                />
 
             <ImageButton
                 android:id="@+id/imageButton"

@@ -14,6 +14,7 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.circledev.cpcalender.models.AllContestsItem;
 import com.circledev.cpcalender.networking.VolleySingleton;
+import com.circledev.cpcalender.utils.StringToDate;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -35,6 +36,7 @@ public class MainViewModel extends AndroidViewModel {
 
     public MainViewModel(Application application) {
         super(application);
+        fetchRequest();
     }
 
     public void fetchRequest() {
@@ -47,8 +49,11 @@ public class MainViewModel extends AndroidViewModel {
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 response -> {
-//                    mAllContestItems = Arrays.asList(gson.fromJson(response, AllContestsItem[].class));
-                    mAllContestItems.postValue(Arrays.asList(gson.fromJson(response, AllContestsItem[].class)));
+                    List<AllContestsItem> initialList = Arrays.asList(gson.fromJson(response, AllContestsItem[].class));
+                    for(AllContestsItem item: initialList) {
+                        item.setDuration(StringToDate.stringToHours(item.getDuration()));
+                    }
+                    mAllContestItems.postValue(initialList);
                     Log.i("PostActivity", "posts loaded.");
                     Log.i("PostActivity", "onResponse: ");
 //                        mCalenderAdapter.updateCalender(allContestsItems);

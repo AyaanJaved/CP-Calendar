@@ -16,11 +16,7 @@ import java.util.List;
 
 
 public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.CalenderViewHolder>{
-    ArrayList<AllContestsItem> contestsItemArrayList = new ArrayList<AllContestsItem>();
-
-//    public CalenderAdapter(List<AllContestsItem> contestsItemList) {
-//        contestsItemArrayList = (ArrayList<AllContestsItem>) contestsItemList;
-//    }
+    private ArrayList<AllContestsItem> contestsItemArrayList = new ArrayList<AllContestsItem>();
 
     @NonNull
     @Override
@@ -53,15 +49,13 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.Calend
 
     public void updateCalender(List<AllContestsItem> updatedContestItems) {
        contestsItemArrayList.clear();
-       for(AllContestsItem item: updatedContestItems) {
-//          item.setStart_time(StringToDate.stringToDate(item.getStart_time()));
-//          item.setEnd_time(StringToDate.stringToDate(item.getEnd_time()));
-          item.setDuration(StringToDate.stringToHours(item.getDuration()));
-       }
+
        contestsItemArrayList.addAll(updatedContestItems);
 
        notifyDataSetChanged();
     }
+
+
 
     static class CalenderViewHolder extends RecyclerView.ViewHolder {
         TextView startTimeTextView;
