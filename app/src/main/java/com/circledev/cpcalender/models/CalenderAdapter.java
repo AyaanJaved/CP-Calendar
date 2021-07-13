@@ -50,6 +50,7 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.Calend
         holder.startTimeTextView.setText(contestsItem.getStart_time().toString());
         holder.endTimeTextView.setText(contestsItem.getEnd_time().toString());
         holder.durationTextView.setText(contestsItem.getDuration());
+        holder.switchCompat.setChecked(contestsItem.isSubscribed());
 
         switch (contestsItem.getSite()) {
             case "CodeChef":

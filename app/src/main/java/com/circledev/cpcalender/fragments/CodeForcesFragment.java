@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.circledev.cpcalender.R;
 import com.circledev.cpcalender.models.AllContestsItem;
 import com.circledev.cpcalender.models.CalenderAdapter;
+import com.circledev.cpcalender.utils.ContestFilter;
 import com.circledev.cpcalender.viewmodels.MainViewModel;
 
 import org.jetbrains.annotations.NotNull;
@@ -49,10 +50,10 @@ public class CodeForcesFragment extends Fragment {
         CalenderAdapter calenderAdapter = mainViewModel.getCodeForcesAdapter();
         recyclerView.setAdapter(calenderAdapter);
 
-        mainViewModel.getCodeForcesContestItems().observe(getViewLifecycleOwner(), new Observer<List<AllContestsItem>>() {
+        mainViewModel.getmAllContestItems().observe(getViewLifecycleOwner(), new Observer<List<AllContestsItem>>() {
             @Override
             public void onChanged(List<AllContestsItem> allContestsItemList) {
-                calenderAdapter.updateCalender(allContestsItemList);
+                calenderAdapter.updateCalender(ContestFilter.codeForcesFilter(allContestsItemList));
             }
         });
 

@@ -1,16 +1,41 @@
 package com.circledev.cpcalender.models;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Date;
 
+@Entity(tableName = "contests")
 public class AllContestsItem {
+    @PrimaryKey(autoGenerate = true)
+    private int uid;
+
+    public int getUid() {
+        return uid;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
+    }
+
+    @Ignore
     String name;
     String url;
+    @Ignore
     Date start_time;
+    @Ignore
     Date end_time;
+    @Ignore
     String duration;
+    @Ignore
     String site;
     String in_24_hours;
     String status;
+    boolean subscribed = false;
 
     public String getName() {
         return name;
@@ -74,5 +99,13 @@ public class AllContestsItem {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public boolean isSubscribed() {
+        return subscribed;
+    }
+
+    public void setSubscribed(boolean subscribed) {
+        this.subscribed = subscribed;
     }
 }

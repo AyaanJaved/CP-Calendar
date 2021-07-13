@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,14 +18,17 @@ import android.view.ViewGroup;
 import com.circledev.cpcalender.R;
 import com.circledev.cpcalender.models.AllContestsItem;
 import com.circledev.cpcalender.models.CalenderAdapter;
+import com.circledev.cpcalender.utils.ContestFilter;
 import com.circledev.cpcalender.viewmodels.MainViewModel;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CodeChefFragment extends Fragment {
 
+    private static final String TAG = "CodeChefFragment";
     MainViewModel mainViewModel;
 
     @Override
@@ -51,10 +55,12 @@ public class CodeChefFragment extends Fragment {
         CalenderAdapter calenderAdapter = mainViewModel.getCodeChefAdapter();
         recyclerView.setAdapter(calenderAdapter);
 
-        mainViewModel.getCodeChefContestItems().observe(getViewLifecycleOwner(), new Observer<List<AllContestsItem>>() {
+        mainViewModel.getmAllContestItems().observe(getViewLifecycleOwner(), new Observer<List<AllContestsItem>>() {
             @Override
             public void onChanged(List<AllContestsItem> allContestsItemList) {
-                calenderAdapter.updateCalender(allContestsItemList);
+                List<AllContestsItem> contestsItems = ContestFilter.codeChefFilter(allContestsItemList);
+                calenderAdapter.updateCalender(contestsItems);
+                Log.i(TAG, "onChanged: ");
             }
         });
 

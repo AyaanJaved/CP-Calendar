@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ContestFilter {
-    static public ArrayList<AllContestsItem> codeChefFilter(ArrayList<AllContestsItem> allContestsItemList) {
+    static public ArrayList<AllContestsItem> codeChefFilter(List<AllContestsItem> allContestsItemList) {
         ArrayList<AllContestsItem> contestsItems = new ArrayList<>();
 
        for(AllContestsItem item: allContestsItemList) {
@@ -18,7 +18,7 @@ public class ContestFilter {
        return contestsItems;
     }
 
-    static public ArrayList<AllContestsItem> codeForcesFilter(ArrayList<AllContestsItem> allContestsItemList) {
+    static public ArrayList<AllContestsItem> codeForcesFilter(List<AllContestsItem> allContestsItemList) {
         ArrayList<AllContestsItem> contestsItems = new ArrayList<>();
 
         for(AllContestsItem item: allContestsItemList) {

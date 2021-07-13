@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout = findViewById(R.id.tablayout);
 
         mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+//        mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
 
         mainViewModel.getmAllContestItems().observe(this, new Observer<List<AllContestsItem>>() {
             @Override
