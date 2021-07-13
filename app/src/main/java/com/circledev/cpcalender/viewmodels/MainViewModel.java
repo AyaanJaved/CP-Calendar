@@ -47,8 +47,8 @@ public class MainViewModel extends AndroidViewModel implements CalenderAdapter.O
     private CalenderAdapter codeChefAdapter;
     private CalenderAdapter codeForcesAdapter;
 
-    private ContestDao contestDao;
-    protected List<AllContestsItem> subsContests;
+//    private ContestDao contestDao;
+//    protected List<AllContestsItem> subsContests;
 
     public MutableLiveData<List<AllContestsItem>> getmAllContestItems() {
         if(mAllContestItems == null) {
@@ -102,9 +102,9 @@ public class MainViewModel extends AndroidViewModel implements CalenderAdapter.O
         codeForcesContestItems = new MutableLiveData<>();
         fetchRequest();
 
-        ContestDatabase contestDatabase = ContestDatabase.getInstance(application);
-        contestDao = contestDatabase.contestDao();
-        new GetContestAsyncTask(contestDao, subsContests).execute();
+//        ContestDatabase contestDatabase = ContestDatabase.getInstance(application);
+//        contestDao = contestDatabase.contestDao();
+//        new GetContestAsyncTask(contestDao, subsContests).execute();
     }
 
 
@@ -122,11 +122,11 @@ public class MainViewModel extends AndroidViewModel implements CalenderAdapter.O
 
                     for(AllContestsItem item: initialList) {
                         item.setDuration(StringToDate.stringToHours(item.getDuration()));
-                        Log.i("viewmodel", ContestsToUrlList.getUrlList(subsContests).toString());
-                        if( Objects.requireNonNull(ContestsToUrlList.getUrlList(subsContests)).contains(item.getUrl())) {
-                            item.setSubscribed(true);
-                            Log.i("viewmodel", "matched");
-                        }
+//                        Log.i("viewmodel", ContestsToUrlList.getUrlList(subsContests).toString());
+//                        if( Objects.requireNonNull(ContestsToUrlList.getUrlList(subsContests)).contains(item.getUrl())) {
+//                            item.setSubscribed(true);
+//                            Log.i("viewmodel", "matched");
+//                        }
                     }
                     mAllContestItems.postValue(initialList);
 
@@ -145,7 +145,7 @@ public class MainViewModel extends AndroidViewModel implements CalenderAdapter.O
         Log.i("viewmodel", "onItemChecked: " + position);
         mAllContestItems.getValue().get(position).setSubscribed(true);
 //        contestDao.insert();
-        new InsertContestAsyncTask(contestDao).execute(mAllContestItems.getValue().get(position));
+//        new InsertContestAsyncTask(contestDao).execute(mAllContestItems.getValue().get(position));
         List<AllContestsItem> allContestsItems = mAllContestItems.getValue();
         mAllContestItems.postValue(allContestsItems);
     }
