@@ -3,10 +3,12 @@ package com.circledev.cpcalender.models;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.circledev.cpcalender.R;
@@ -20,12 +22,17 @@ import java.util.List;
 
 public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.CalenderViewHolder>{
     private ArrayList<AllContestsItem> contestsItemArrayList = new ArrayList<AllContestsItem>();
+    private OnClickListener onClickListener;
+
+    public CalenderAdapter(OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
+    }
 
     @NonNull
     @Override
     public CalenderViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.calender_card, parent, false);
-        return new CalenderViewHolder(view);
+        return new CalenderViewHolder(view, onClickListener);
     }
 
     @Override
@@ -61,6 +68,10 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.Calend
                 holder.imageView.setImageResource(R.drawable.hackerrank);
                 break;
         }
+
+        if(position == 0) {
+            holder.smallLine.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
@@ -78,14 +89,17 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.Calend
 
 
 
-    static class CalenderViewHolder extends RecyclerView.ViewHolder {
+    static class CalenderViewHolder extends RecyclerView.ViewHolder implements CompoundButton.OnCheckedChangeListener {
         TextView startTimeTextView;
         TextView endTimeTextView;
         TextView contestNameTextView;
         TextView durationTextView;
         ImageView imageView;
+        View smallLine;
+        SwitchCompat switchCompat;
+        CalenderAdapter.OnClickListener onClickListener;
 
-        public CalenderViewHolder(View itemView) {
+        public CalenderViewHolder(View itemView, CalenderAdapter.OnClickListener adapterOnClickListener) {
             super(itemView);
             startTimeTextView = itemView.findViewById(R.id.start_time);
             endTimeTextView = itemView.findViewById(R.id.end_time);
@@ -93,6 +107,20 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.Calend
             durationTextView = itemView.findViewById(R.id.duration_text_view);
             imageView = itemView.findViewById(R.id.imageView);
             imageView.setOutlineProvider(new CircularOutlineProvider());
+            smallLine = itemView.findViewById(R.id.small_line);
+            switchCompat = itemView.findViewById(R.id.notification_switch);
+            onClickListener = adapterOnClickListener;
+
+            switchCompat.setOnCheckedChangeListener(this);
+        }
+
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            if(isChecked) {
+                onClickListener.onItemChecked(getAdapterPosition());
+            } else {
+                onClickListener.onItemUnchecked(getAdapterPosition());
+            }
         }
     }
 
@@ -103,6 +131,11 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.Calend
             super(itemView);
             dateTextView = itemView.findViewById(R.id.date_text_view);
         }
+    }
+
+    public interface OnClickListener{
+        void onItemChecked(int position);
+        void onItemUnchecked(int position);
     }
 
 }

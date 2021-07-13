@@ -29,4 +29,16 @@ public class ContestFilter {
         }
         return contestsItems;
     }
+
+    static public ArrayList<AllContestsItem> allContestsFilter(ArrayList<AllContestsItem> allContestsItemList) {
+        ArrayList<AllContestsItem> contestsItems = new ArrayList<>();
+
+        for(AllContestsItem item: allContestsItemList) {
+
+            if(item.getSite().equals("CodeChef") ) {
+                contestsItems.add(item);
+            }
+        }
+        return contestsItems;
+    }
 }

@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.circledev.cpcalender.R;
 import com.circledev.cpcalender.models.AllContestsItem;
@@ -22,7 +23,7 @@ import com.circledev.cpcalender.viewmodels.MainViewModel;
 
 import java.util.List;
 
-public class MainFragment extends Fragment {
+public class MainFragment extends Fragment implements CalenderAdapter.OnClickListener{
 
     MainViewModel mainViewModel;
     CalenderAdapter mCalenderAdapter;
@@ -53,5 +54,15 @@ public class MainFragment extends Fragment {
         recyclerView.setAdapter(mCalenderAdapter);
 
         super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
+    public void onItemChecked(int position) {
+
+    }
+
+    @Override
+    public void onItemUnchecked(int position) {
+
     }
 }

@@ -1,6 +1,8 @@
 package com.circledev.cpcalender.viewmodels;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -25,8 +27,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-public class MainViewModel extends AndroidViewModel {
-//    List<AllContestsItem> mAllContestItems;
+import javax.security.auth.login.LoginException;
+
+public class MainViewModel extends AndroidViewModel implements CalenderAdapter.OnClickListener {
     private MutableLiveData<List<AllContestsItem>> mAllContestItems;
     private MutableLiveData<List<AllContestsItem>> codeChefContestItems;
     private MutableLiveData<List<AllContestsItem>> codeForcesContestItems;
@@ -34,6 +37,8 @@ public class MainViewModel extends AndroidViewModel {
     private CalenderAdapter calenderAdapter ;
     private CalenderAdapter codeChefAdapter;
     private CalenderAdapter codeForcesAdapter;
+
+    private SharedPreferences sharedPreferences;
 
     public MutableLiveData<List<AllContestsItem>> getmAllContestItems() {
         if(mAllContestItems == null) {
@@ -61,7 +66,7 @@ public class MainViewModel extends AndroidViewModel {
 
     public CalenderAdapter getCalenderAdapter() {
         if(calenderAdapter == null) {
-            calenderAdapter = new CalenderAdapter();
+            calenderAdapter = new CalenderAdapter(this);
         }
 
         return calenderAdapter;
@@ -69,14 +74,14 @@ public class MainViewModel extends AndroidViewModel {
 
     public CalenderAdapter getCodeChefAdapter() {
         if(codeChefAdapter == null) {
-            codeChefAdapter = new CalenderAdapter();
+            codeChefAdapter = new CalenderAdapter(this);
         }
         return codeChefAdapter;
     }
 
     public CalenderAdapter getCodeForcesAdapter() {
         if(codeForcesAdapter == null) {
-            codeForcesAdapter = new CalenderAdapter();
+            codeForcesAdapter = new CalenderAdapter(this);
         }
         return codeForcesAdapter;
     }
@@ -87,6 +92,8 @@ public class MainViewModel extends AndroidViewModel {
         codeChefContestItems = new MutableLiveData<>();
         codeForcesContestItems = new MutableLiveData<>();
         fetchRequest();
+
+        sharedPreferences = getApplication().getSharedPreferences("subs", Context.MODE_PRIVATE);
     }
 
     public void fetchRequest() {
@@ -100,7 +107,7 @@ public class MainViewModel extends AndroidViewModel {
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 response -> {
                     ArrayList<AllContestsItem> initialList = new ArrayList<>(Arrays.asList(gson.fromJson(response, AllContestsItem[].class)) );
-//                    new ArrayList(Arrays.asList(ids.toArray(new ChunkId[0])));
+
                     for(AllContestsItem item: initialList) {
                         item.setDuration(StringToDate.stringToHours(item.getDuration()));
                     }
@@ -116,5 +123,15 @@ public class MainViewModel extends AndroidViewModel {
 
 
         VolleySingleton.getInstance(getApplication()).addToRequestQueue(stringRequest);
+    }
+
+    @Override
+    public void onItemChecked(int position) {
+        Log.i("viewmodel", "onItemChecked: " + position);
+    }
+
+    @Override
+    public void onItemUnchecked(int position) {
+        Log.i("viewmodel", "onItemUnchecked: " + position);
     }
 }
