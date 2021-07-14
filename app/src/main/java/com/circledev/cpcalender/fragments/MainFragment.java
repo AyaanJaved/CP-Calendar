@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import com.circledev.cpcalender.R;
 import com.circledev.cpcalender.models.AllContestsItem;
 import com.circledev.cpcalender.models.CalenderAdapter;
+import com.circledev.cpcalender.utils.ContestFilter;
 import com.circledev.cpcalender.viewmodels.MainViewModel;
 
 import java.util.List;
@@ -54,7 +55,7 @@ public class MainFragment extends Fragment{
         mainViewModel.getAllContestItems().observe(getViewLifecycleOwner(), new Observer<List<AllContestsItem>>() {
             @Override
             public void onChanged(List<AllContestsItem> contestsItemList) {
-                mainViewModel.getCalenderAdapter().updateCalender(contestsItemList);
+                mainViewModel.getCalenderAdapter().updateCalender(ContestFilter.mainFragmentContestFilter(contestsItemList));
                 Log.i("mainfragment", "onChanged: update calender");
             }
         });

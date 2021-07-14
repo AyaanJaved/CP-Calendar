@@ -1,6 +1,9 @@
 package com.circledev.cpcalender.fragments;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -10,11 +13,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.circledev.cpcalender.R;
 import com.circledev.cpcalender.models.AllContestsItem;
 import com.circledev.cpcalender.models.CalenderAdapter;
@@ -23,12 +21,9 @@ import com.circledev.cpcalender.viewmodels.MainViewModel;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class CodeChefFragment extends Fragment{
-
-    private static final String TAG = "CodeChefFragment";
+public class HackerRankFragment extends Fragment{
     MainViewModel mainViewModel;
 
     @Override
@@ -42,28 +37,27 @@ public class CodeChefFragment extends Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        return inflater.inflate(R.layout.fragment_code_chef, container, false);
+        return inflater.inflate(R.layout.fragment_code_forces, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
 
-        RecyclerView recyclerView = view.findViewById(R.id.codechef_recycler_view);
+        RecyclerView recyclerView = view.findViewById(R.id.hackerank_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
 
-        CalenderAdapter calenderAdapter = mainViewModel.getCodeChefAdapter();
+        CalenderAdapter calenderAdapter = mainViewModel.getHackerankAdapter();
         recyclerView.setAdapter(calenderAdapter);
 
         mainViewModel.getAllContestItems().observe(getViewLifecycleOwner(), new Observer<List<AllContestsItem>>() {
             @Override
             public void onChanged(List<AllContestsItem> allContestsItemList) {
-                List<AllContestsItem> contestsItems = ContestFilter.contestsFilter((ArrayList<AllContestsItem>) allContestsItemList, ContestFilter.CODE_CHEF_FILTER);
-                calenderAdapter.updateCalender(contestsItems);
-                Log.i(TAG, "onChanged: ");
+                calenderAdapter.updateCalender(ContestFilter.contestsFilter(allContestsItemList, ContestFilter.HACKERRANK_FILTER));
             }
         });
 
         super.onViewCreated(view, savedInstanceState);
     }
+
 }

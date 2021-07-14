@@ -38,6 +38,7 @@ public class MainViewModel extends AndroidViewModel implements CalenderAdapter.O
     private CalenderAdapter calenderAdapter ;
     private CalenderAdapter codeChefAdapter;
     private CalenderAdapter codeForcesAdapter;
+    private CalenderAdapter hackerrankAdapter;
 
 //    private ContestDao contestDao;
 //    protected List<AllContestsItem> subsContests;
@@ -79,6 +80,13 @@ public class MainViewModel extends AndroidViewModel implements CalenderAdapter.O
         return codeForcesAdapter;
     }
 
+    public CalenderAdapter getHackerankAdapter() {
+        if(hackerrankAdapter == null) {
+            hackerrankAdapter = new CalenderAdapter(this);
+        }
+        return hackerrankAdapter;
+    }
+
     public MainViewModel(Application application) {
         super(application);
         mAllContestItems = new MutableLiveData<>();
@@ -102,9 +110,9 @@ public class MainViewModel extends AndroidViewModel implements CalenderAdapter.O
                 response -> {
                     ArrayList<AllContestsItem> initialList = new ArrayList<>(Arrays.asList(gson.fromJson(response, AllContestsItem[].class)) );
 
-                    for(AllContestsItem item: initialList) {
-                        item.setDuration(StringToDate.stringToHours(item.getDuration()));
-                    }
+//                    for(AllContestsItem item: initialList) {
+//                        item.setDuration(StringToDate.stringToHours(item.getDuration()));
+//                    }
                     Log.i("viewmodel", "fetchRequest: " + initialList.get(0).getStart_time());
                     mAllContestItems.postValue(initialList);
 

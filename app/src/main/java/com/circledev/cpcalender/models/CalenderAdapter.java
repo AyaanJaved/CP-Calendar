@@ -54,7 +54,8 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.Calend
         holder.endTimeTextView.setText(StringToDate.timeFormat(contestsItem.getEnd_time()));
         holder.startDateTextView.setText(StringToDate.dateFormat(contestsItem.getStart_time()));
         holder.endDateTextView.setText(StringToDate.dateFormat(contestsItem.getEnd_time()));
-        holder.durationTextView.setText(contestsItem.getDuration());
+//        holder.durationTextView.setText(contestsItem.getDuration());
+        holder.durationTextView.setText(StringToDate.stringToHours(contestsItem.getDuration()));
 
         switch (contestsItem.getSite()) {
             case "CodeChef":

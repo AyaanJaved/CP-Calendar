@@ -53,7 +53,7 @@ public class CodeForcesFragment extends Fragment{
         mainViewModel.getAllContestItems().observe(getViewLifecycleOwner(), new Observer<List<AllContestsItem>>() {
             @Override
             public void onChanged(List<AllContestsItem> allContestsItemList) {
-                calenderAdapter.updateCalender(ContestFilter.codeForcesFilter(allContestsItemList));
+                calenderAdapter.updateCalender(ContestFilter.contestsFilter(allContestsItemList, ContestFilter.CODE_FORCES_FILTER));
             }
         });
 
