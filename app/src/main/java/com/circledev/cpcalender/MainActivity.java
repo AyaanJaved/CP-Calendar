@@ -61,12 +61,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_activity_menu, menu);
-        return true;
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -78,9 +72,6 @@ public class MainActivity extends AppCompatActivity {
         tabLayout = findViewById(R.id.tablayout);
 
         mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
-//        mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
-
-
 
         new TabLayoutMediator(tabLayout, viewPager2, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override
@@ -94,6 +85,9 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case 2:
                         tab.setText("CodeForces");
+                        break;
+                    case 3:
+                        tab.setText("HackerRank");
                         break;
                     default:
                         //
@@ -111,6 +105,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
     }
 }

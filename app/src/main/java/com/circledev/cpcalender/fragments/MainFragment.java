@@ -56,11 +56,11 @@ public class MainFragment extends Fragment{
             @Override
             public void onChanged(List<AllContestsItem> contestsItemList) {
                 mainViewModel.getCalenderAdapter().updateCalender(ContestFilter.mainFragmentContestFilter(contestsItemList));
+                view.findViewById(R.id.loading_anim).setVisibility(View.GONE);
                 Log.i("mainfragment", "onChanged: update calender");
             }
         });
 
         super.onViewCreated(view, savedInstanceState);
     }
-
 }

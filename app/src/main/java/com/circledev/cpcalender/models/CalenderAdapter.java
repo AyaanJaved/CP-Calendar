@@ -22,6 +22,8 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import pl.droidsonroids.gif.GifImageView;
+
 
 public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.CalenderViewHolder>{
     private final ArrayList<AllContestsItem> contestsItemArrayList = new ArrayList<AllContestsItem>();
@@ -54,7 +56,6 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.Calend
         holder.endTimeTextView.setText(StringToDate.timeFormat(contestsItem.getEnd_time()));
         holder.startDateTextView.setText(StringToDate.dateFormat(contestsItem.getStart_time()));
         holder.endDateTextView.setText(StringToDate.dateFormat(contestsItem.getEnd_time()));
-//        holder.durationTextView.setText(contestsItem.getDuration());
         holder.durationTextView.setText(StringToDate.stringToHours(contestsItem.getDuration()));
 
         switch (contestsItem.getSite()) {
@@ -96,6 +97,9 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.Calend
         if(position == getItemCount() - 1) {
             holder.bigLine.setVisibility(View.INVISIBLE);
         }
+        if(contestsItem.getStatus().equals("CODING")) {
+            holder.liveAnimation.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -125,6 +129,7 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.Calend
         View bigLine;
         ImageButton calenderButton;
         CardView cardView;
+        GifImageView liveAnimation;
         CalenderAdapter.OnClickListener onClickListener;
 
         public CalenderViewHolder(View itemView, CalenderAdapter.OnClickListener adapterOnClickListener) {
@@ -141,6 +146,7 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.Calend
             calenderButton = itemView.findViewById(R.id.calender_button);
             bigLine = itemView.findViewById(R.id.big_line);
             cardView = itemView.findViewById(R.id.cardView);
+            liveAnimation = itemView.findViewById(R.id.gifImageView);
             onClickListener = adapterOnClickListener;
 
             calenderButton.setOnClickListener(this);
