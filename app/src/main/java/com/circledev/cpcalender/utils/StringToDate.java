@@ -1,5 +1,8 @@
 package com.circledev.cpcalender.utils;
 
+import android.content.Context;
+
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -27,6 +30,17 @@ public class StringToDate {
         int durationInt = (int) Double.parseDouble(duration);
             int h = durationInt / 3600;
             int m = durationInt % 3600 / 60;
+            if(m==0) {
+                return h+" hours";
+            }
             return h+" hours"+ " and " + m +" minutes";
+    }
+
+    public static String dateFormat(Date date) {
+        return DateFormat.getDateInstance(DateFormat.MEDIUM).format(date);
+    }
+
+    public static String timeFormat(Date date) {
+        return DateFormat.getTimeInstance(DateFormat.SHORT).format(date);
     }
 }

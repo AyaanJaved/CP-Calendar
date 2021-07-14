@@ -4,11 +4,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.circledev.cpcalender.R;
@@ -16,13 +18,14 @@ import com.circledev.cpcalender.utils.CircularOutlineProvider;
 import com.circledev.cpcalender.utils.Constants;
 import com.circledev.cpcalender.utils.StringToDate;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.CalenderViewHolder>{
-    private ArrayList<AllContestsItem> contestsItemArrayList = new ArrayList<AllContestsItem>();
-    private OnClickListener onClickListener;
+    private final ArrayList<AllContestsItem> contestsItemArrayList = new ArrayList<AllContestsItem>();
+    private final OnClickListener onClickListener;
 
     public CalenderAdapter(OnClickListener onClickListener) {
         this.onClickListener = onClickListener;
@@ -47,10 +50,11 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.Calend
     public void onBindViewHolder(CalenderAdapter.CalenderViewHolder holder, int position) {
         AllContestsItem contestsItem =  contestsItemArrayList.get(position);
         holder.contestNameTextView.setText( contestsItem.getName());
-        holder.startTimeTextView.setText(contestsItem.getStart_time().toString());
-        holder.endTimeTextView.setText(contestsItem.getEnd_time().toString());
+        holder.startTimeTextView.setText(StringToDate.timeFormat(contestsItem.getStart_time()) );
+        holder.endTimeTextView.setText(StringToDate.timeFormat(contestsItem.getEnd_time()));
+        holder.startDateTextView.setText(StringToDate.dateFormat(contestsItem.getStart_time()));
+        holder.endDateTextView.setText(StringToDate.dateFormat(contestsItem.getEnd_time()));
         holder.durationTextView.setText(contestsItem.getDuration());
-        holder.switchCompat.setChecked(contestsItem.isSubscribed());
 
         switch (contestsItem.getSite()) {
             case "CodeChef":
@@ -68,10 +72,28 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.Calend
             case "HackerRank":
                 holder.imageView.setImageResource(R.drawable.hackerrank);
                 break;
+            case "CS Academy":
+                holder.imageView.setImageResource(R.drawable.csacademy);
+                break;
+            case "HackerEarth":
+                holder.imageView.setImageResource(R.drawable.hackerearth);
+                break;
+            case "Kick Start":
+                holder.imageView.setImageResource(R.drawable.kickstart);
+                break;
+            case "LeetCode":
+                holder.imageView.setImageResource(R.drawable.leetcode);
+                break;
+            case "Toph":
+                holder.imageView.setImageResource(R.drawable.toph);
+                break;
         }
 
         if(position == 0) {
             holder.smallLine.setVisibility(View.INVISIBLE);
+        }
+        if(position == getItemCount() - 1) {
+            holder.bigLine.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -90,14 +112,18 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.Calend
 
 
 
-    static class CalenderViewHolder extends RecyclerView.ViewHolder implements CompoundButton.OnCheckedChangeListener {
+    class CalenderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView startTimeTextView;
         TextView endTimeTextView;
         TextView contestNameTextView;
         TextView durationTextView;
+        TextView startDateTextView;
+        TextView endDateTextView;
         ImageView imageView;
         View smallLine;
-        SwitchCompat switchCompat;
+        View bigLine;
+        ImageButton calenderButton;
+        CardView cardView;
         CalenderAdapter.OnClickListener onClickListener;
 
         public CalenderViewHolder(View itemView, CalenderAdapter.OnClickListener adapterOnClickListener) {
@@ -106,22 +132,23 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.Calend
             endTimeTextView = itemView.findViewById(R.id.end_time);
             contestNameTextView = itemView.findViewById(R.id.contest_name);
             durationTextView = itemView.findViewById(R.id.duration_text_view);
+            startDateTextView = itemView.findViewById(R.id.start_date);
+            endDateTextView = itemView.findViewById(R.id.end_date);
             imageView = itemView.findViewById(R.id.imageView);
             imageView.setOutlineProvider(new CircularOutlineProvider());
             smallLine = itemView.findViewById(R.id.small_line);
-            switchCompat = itemView.findViewById(R.id.notification_switch);
+            calenderButton = itemView.findViewById(R.id.calender_button);
+            bigLine = itemView.findViewById(R.id.big_line);
+            cardView = itemView.findViewById(R.id.cardView);
             onClickListener = adapterOnClickListener;
 
-            switchCompat.setOnCheckedChangeListener(this);
+            calenderButton.setOnClickListener(this);
+            cardView.setOnClickListener(this);
         }
 
         @Override
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            if(isChecked) {
-                onClickListener.onItemChecked(getAdapterPosition());
-            } else {
-                onClickListener.onItemUnchecked(getAdapterPosition());
-            }
+        public void onClick(View v) {
+            onClickListener.onClick (contestsItemArrayList.get(getAdapterPosition()));
         }
     }
 
@@ -135,8 +162,7 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.Calend
     }
 
     public interface OnClickListener{
-        void onItemChecked(int position);
-        void onItemUnchecked(int position);
+       void onClick(AllContestsItem item);
     }
 
 }

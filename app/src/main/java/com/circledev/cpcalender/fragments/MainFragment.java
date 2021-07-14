@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,7 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.circledev.cpcalender.R;
 import com.circledev.cpcalender.models.AllContestsItem;
@@ -23,7 +21,7 @@ import com.circledev.cpcalender.viewmodels.MainViewModel;
 
 import java.util.List;
 
-public class MainFragment extends Fragment implements CalenderAdapter.OnClickListener{
+public class MainFragment extends Fragment{
 
     MainViewModel mainViewModel;
     CalenderAdapter mCalenderAdapter;
@@ -53,16 +51,15 @@ public class MainFragment extends Fragment implements CalenderAdapter.OnClickLis
         mCalenderAdapter = mainViewModel.getCalenderAdapter();
         recyclerView.setAdapter(mCalenderAdapter);
 
+        mainViewModel.getAllContestItems().observe(getViewLifecycleOwner(), new Observer<List<AllContestsItem>>() {
+            @Override
+            public void onChanged(List<AllContestsItem> contestsItemList) {
+                mainViewModel.getCalenderAdapter().updateCalender(contestsItemList);
+                Log.i("mainfragment", "onChanged: update calender");
+            }
+        });
+
         super.onViewCreated(view, savedInstanceState);
     }
 
-    @Override
-    public void onItemChecked(int position) {
-
-    }
-
-    @Override
-    public void onItemUnchecked(int position) {
-
-    }
 }

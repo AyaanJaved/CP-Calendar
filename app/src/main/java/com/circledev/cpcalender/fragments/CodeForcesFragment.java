@@ -23,7 +23,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class CodeForcesFragment extends Fragment {
+public class CodeForcesFragment extends Fragment{
     MainViewModel mainViewModel;
 
     @Override
@@ -50,7 +50,7 @@ public class CodeForcesFragment extends Fragment {
         CalenderAdapter calenderAdapter = mainViewModel.getCodeForcesAdapter();
         recyclerView.setAdapter(calenderAdapter);
 
-        mainViewModel.getmAllContestItems().observe(getViewLifecycleOwner(), new Observer<List<AllContestsItem>>() {
+        mainViewModel.getAllContestItems().observe(getViewLifecycleOwner(), new Observer<List<AllContestsItem>>() {
             @Override
             public void onChanged(List<AllContestsItem> allContestsItemList) {
                 calenderAdapter.updateCalender(ContestFilter.codeForcesFilter(allContestsItemList));
@@ -59,4 +59,5 @@ public class CodeForcesFragment extends Fragment {
 
         super.onViewCreated(view, savedInstanceState);
     }
+
 }

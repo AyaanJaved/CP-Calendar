@@ -13,17 +13,16 @@ import androidx.sqlite.db.SupportSQLiteOpenHelper;
 import com.circledev.cpcalender.models.AllContestsItem;
 
 import org.jetbrains.annotations.NotNull;
-
-@Database(entities = AllContestsItem.class, version = 1)
-public abstract class ContestDatabase extends RoomDatabase {
-   private static ContestDatabase instance;
-
-   public abstract ContestDao contestDao();
-
-   public static synchronized ContestDatabase getInstance(Context context) {
-       if(instance == null) {
-           instance = Room.databaseBuilder(context.getApplicationContext(), ContestDatabase.class, "contestDatabase").fallbackToDestructiveMigration().build();
-       }
-       return instance;
-   }
-}
+//
+//public abstract class ContestDatabase extends RoomDatabase {
+//   private static ContestDatabase instance;
+//
+//   public abstract ContestDao contestDao();
+//
+//   public static synchronized ContestDatabase getInstance(Context context) {
+//       if(instance == null) {
+//           instance = Room.databaseBuilder(context.getApplicationContext(), ContestDatabase.class, "contestDatabase").fallbackToDestructiveMigration().build();
+//       }
+//       return instance;
+//   }
+//}

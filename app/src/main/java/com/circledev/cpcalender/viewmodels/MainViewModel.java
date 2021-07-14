@@ -2,46 +2,38 @@ package com.circledev.cpcalender.viewmodels;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.provider.CalendarContract;
 import android.util.ArraySet;
 import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.SavedStateHandle;
-import androidx.lifecycle.ViewModel;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
-import com.circledev.cpcalender.database.ContestDao;
-import com.circledev.cpcalender.database.ContestDatabase;
-import com.circledev.cpcalender.database.ContestSubs;
 import com.circledev.cpcalender.models.AllContestsItem;
 import com.circledev.cpcalender.models.CalenderAdapter;
 import com.circledev.cpcalender.networking.VolleySingleton;
-import com.circledev.cpcalender.utils.ContestFilter;
-import com.circledev.cpcalender.utils.ContestsToUrlList;
 import com.circledev.cpcalender.utils.StringToDate;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
-import java.util.Set;
 
-import javax.security.auth.login.LoginException;
-
-public class MainViewModel extends AndroidViewModel implements CalenderAdapter.OnClickListener {
+public class MainViewModel extends AndroidViewModel implements CalenderAdapter.OnClickListener{
     private MutableLiveData<List<AllContestsItem>> mAllContestItems;
-    private List<AllContestsItem> codeChefContestItems;
-    private MutableLiveData<List<AllContestsItem>> codeForcesContestItems;
+
+    private MutableLiveData<AllContestsItem> onItemClickLiveData;
 
     private CalenderAdapter calenderAdapter ;
     private CalenderAdapter codeChefAdapter;
@@ -50,28 +42,12 @@ public class MainViewModel extends AndroidViewModel implements CalenderAdapter.O
 //    private ContestDao contestDao;
 //    protected List<AllContestsItem> subsContests;
 
-    public MutableLiveData<List<AllContestsItem>> getmAllContestItems() {
+    public MutableLiveData<List<AllContestsItem>> getAllContestItems() {
         if(mAllContestItems == null) {
             mAllContestItems = new MutableLiveData<>();
         }
 
         return  mAllContestItems;
-    }
-
-    public List<AllContestsItem> getCodeChefContestItems() {
-        if(codeChefContestItems == null) {
-            codeChefContestItems = new ArrayList<>();
-        }
-
-        return  codeChefContestItems;
-    }
-
-    public MutableLiveData<List<AllContestsItem>> getCodeForcesContestItems() {
-        if(codeForcesContestItems == null) {
-            codeForcesContestItems = new MutableLiveData<>();
-        }
-
-        return  codeForcesContestItems;
     }
 
     public CalenderAdapter getCalenderAdapter() {
@@ -80,6 +56,13 @@ public class MainViewModel extends AndroidViewModel implements CalenderAdapter.O
         }
 
         return calenderAdapter;
+    }
+
+    public MutableLiveData<AllContestsItem> getOnItemClickLiveData() {
+        if(onItemClickLiveData == null) {
+            onItemClickLiveData = new MutableLiveData<>();
+        }
+        return onItemClickLiveData;
     }
 
     public CalenderAdapter getCodeChefAdapter() {
@@ -99,7 +82,6 @@ public class MainViewModel extends AndroidViewModel implements CalenderAdapter.O
     public MainViewModel(Application application) {
         super(application);
         mAllContestItems = new MutableLiveData<>();
-        codeForcesContestItems = new MutableLiveData<>();
         fetchRequest();
 
 //        ContestDatabase contestDatabase = ContestDatabase.getInstance(application);
@@ -122,12 +104,8 @@ public class MainViewModel extends AndroidViewModel implements CalenderAdapter.O
 
                     for(AllContestsItem item: initialList) {
                         item.setDuration(StringToDate.stringToHours(item.getDuration()));
-//                        Log.i("viewmodel", ContestsToUrlList.getUrlList(subsContests).toString());
-//                        if( Objects.requireNonNull(ContestsToUrlList.getUrlList(subsContests)).contains(item.getUrl())) {
-//                            item.setSubscribed(true);
-//                            Log.i("viewmodel", "matched");
-//                        }
                     }
+                    Log.i("viewmodel", "fetchRequest: " + initialList.get(0).getStart_time());
                     mAllContestItems.postValue(initialList);
 
                     Log.i("PostActivity", "posts loaded.");
@@ -141,60 +119,69 @@ public class MainViewModel extends AndroidViewModel implements CalenderAdapter.O
     }
 
     @Override
-    public void onItemChecked(int position) {
-        Log.i("viewmodel", "onItemChecked: " + position);
-        mAllContestItems.getValue().get(position).setSubscribed(true);
-//        contestDao.insert();
-//        new InsertContestAsyncTask(contestDao).execute(mAllContestItems.getValue().get(position));
-        List<AllContestsItem> allContestsItems = mAllContestItems.getValue();
-        mAllContestItems.postValue(allContestsItems);
+    public void onClick(AllContestsItem item) {
+        Log.i("viewmodel", "onClick: " + item.getName());
+        onItemClickLiveData.postValue(item);
     }
 
-    @Override
-    public void onItemUnchecked(int position) {
-        Log.i("viewmodel", "onItemUnchecked: " + position);
-        AllContestsItem item = mAllContestItems.getValue().get(position);
-        item.setSubscribed(false);
-//        contestDao.delete(item);
+//    @Override
+//    public void onItemChecked(int position) {
+//        Log.i("viewmodel", "onItemChecked: " + position);
+//        mAllContestItems.getValue().get(position).setSubscribed(true);
+////        contestDao.insert();
+////        new InsertContestAsyncTask(contestDao).execute(mAllContestItems.getValue().get(position));
+//        List<AllContestsItem> allContestsItems = mAllContestItems.getValue();
+//        mAllContestItems.postValue(allContestsItems);
+//    }
 
-        List<AllContestsItem> allContestsItems = mAllContestItems.getValue();
-        mAllContestItems.postValue(allContestsItems);
-    }
 
-    private static class InsertContestAsyncTask extends AsyncTask<AllContestsItem, Void, Void> {
-        private ContestDao contestDao;
 
-        private InsertContestAsyncTask(ContestDao contestDao){
-            this.contestDao = contestDao;
-        }
+//    @Override
+//    public void onItemUnchecked(int position) {
+//        Log.i("viewmodel", "onItemUnchecked: " + position);
+//        AllContestsItem item = mAllContestItems.getValue().get(position);
+//        item.setSubscribed(false);
+////        contestDao.delete(item);
+//
+//        List<AllContestsItem> allContestsItems = mAllContestItems.getValue();
+//        mAllContestItems.postValue(allContestsItems);
+//    }
 
-        @Override
-        protected Void doInBackground(AllContestsItem... allContestsItems) {
-            contestDao.insert(allContestsItems[0]);
-            return null;
-        }
-    }
-
-    private static class GetContestAsyncTask extends AsyncTask<Void, Void, List<AllContestsItem>> {
-        private ContestDao contestDao;
-        private List<AllContestsItem> subsContests;
-
-        private GetContestAsyncTask(ContestDao contestDao, List<AllContestsItem> subsContests) {
-            this.contestDao = contestDao;
-            this.subsContests = subsContests;
-        }
-
-        @Override
-        protected List<AllContestsItem> doInBackground(Void... voids) {
-            return contestDao.getAllSubsContests();
-        }
-
-        @Override
-        protected void onPostExecute(List<AllContestsItem> allContestsItemList) {
-            super.onPostExecute(allContestsItemList);
-            subsContests = allContestsItemList;
-        }
-    }
+//
+//    private static class InsertContestAsyncTask extends AsyncTask<AllContestsItem, Void, Void> {
+//        private final ContestDao contestDao;
+//
+//        private InsertContestAsyncTask(ContestDao contestDao){
+//            this.contestDao = contestDao;
+//        }
+//
+//        @Override
+//        protected Void doInBackground(AllContestsItem... allContestsItems) {
+//            contestDao.insert(allContestsItems[0]);
+//            return null;
+//        }
+//    }
+//
+//    private static class GetContestAsyncTask extends AsyncTask<Void, Void, List<AllContestsItem>> {
+//        private final ContestDao contestDao;
+//        private List<AllContestsItem> subsContests;
+//
+//        private GetContestAsyncTask(ContestDao contestDao, List<AllContestsItem> subsContests) {
+//            this.contestDao = contestDao;
+//            this.subsContests = subsContests;
+//        }
+//
+//        @Override
+//        protected List<AllContestsItem> doInBackground(Void... voids) {
+//            return contestDao.getAllSubsContests();
+//        }
+//
+//        @Override
+//        protected void onPostExecute(List<AllContestsItem> allContestsItemList) {
+//            super.onPostExecute(allContestsItemList);
+//            subsContests = allContestsItemList;
+//        }
+//    }
 
 
 }

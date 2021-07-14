@@ -2,6 +2,7 @@ package com.circledev.cpcalender;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.SavedStateViewModelFactory;
 import androidx.lifecycle.ViewModel;
@@ -11,8 +12,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.android.volley.Request;
@@ -44,6 +49,24 @@ public class MainActivity extends AppCompatActivity {
     MainViewModel mainViewModel;
 
     @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.night_mode:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                return true;
+            default:
+                super.onOptionsItemSelected(item);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_activity_menu, menu);
+        return true;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -57,13 +80,7 @@ public class MainActivity extends AppCompatActivity {
         mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
 //        mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
 
-        mainViewModel.getmAllContestItems().observe(this, new Observer<List<AllContestsItem>>() {
-            @Override
-            public void onChanged(List<AllContestsItem> contestsItemList) {
-                mainViewModel.getCalenderAdapter().updateCalender(contestsItemList);
-                Log.i("mainfragment", "onChanged: update calender");
-            }
-        });
+
 
         new TabLayoutMediator(tabLayout, viewPager2, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override
@@ -83,6 +100,17 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }).attach();
-    }
 
+        mainViewModel.getOnItemClickLiveData().observe(this, new Observer<AllContestsItem>() {
+            @Override
+            public void onChanged(AllContestsItem item) {
+                Intent intent = new Intent(Intent.ACTION_INSERT);
+                intent.setData(CalendarContract.Events.CONTENT_URI);
+                intent.putExtra(CalendarContract.Events.TITLE, item.getName());
+                startActivity(intent);
+            }
+        });
+
+
+    }
 }

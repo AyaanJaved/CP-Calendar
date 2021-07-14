@@ -9,29 +9,12 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Date;
 
-@Entity(tableName = "contests")
 public class AllContestsItem {
-    @PrimaryKey(autoGenerate = true)
-    private int uid;
-
-    public int getUid() {
-        return uid;
-    }
-
-    public void setUid(int uid) {
-        this.uid = uid;
-    }
-
-    @Ignore
     String name;
     String url;
-    @Ignore
     Date start_time;
-    @Ignore
     Date end_time;
-    @Ignore
     String duration;
-    @Ignore
     String site;
     String in_24_hours;
     String status;

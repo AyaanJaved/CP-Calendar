@@ -23,10 +23,9 @@ import com.circledev.cpcalender.viewmodels.MainViewModel;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class CodeChefFragment extends Fragment {
+public class CodeChefFragment extends Fragment{
 
     private static final String TAG = "CodeChefFragment";
     MainViewModel mainViewModel;
@@ -55,7 +54,7 @@ public class CodeChefFragment extends Fragment {
         CalenderAdapter calenderAdapter = mainViewModel.getCodeChefAdapter();
         recyclerView.setAdapter(calenderAdapter);
 
-        mainViewModel.getmAllContestItems().observe(getViewLifecycleOwner(), new Observer<List<AllContestsItem>>() {
+        mainViewModel.getAllContestItems().observe(getViewLifecycleOwner(), new Observer<List<AllContestsItem>>() {
             @Override
             public void onChanged(List<AllContestsItem> allContestsItemList) {
                 List<AllContestsItem> contestsItems = ContestFilter.codeChefFilter(allContestsItemList);
