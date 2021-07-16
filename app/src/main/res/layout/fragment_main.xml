@@ -9,13 +9,9 @@
         android:id="@+id/loading_anim"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="80dp"
-        android:layout_marginEnd="100dp"
-        android:layout_marginRight="100dp"
-        android:layout_marginBottom="100dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/loading_animation" />
+        android:layout_margin="50dp"
+        android:src="@drawable/loading_anim" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/calender_recycler_view"

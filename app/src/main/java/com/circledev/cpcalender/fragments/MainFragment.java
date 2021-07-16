@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.OverScroller;
 
 import com.circledev.cpcalender.R;
 import com.circledev.cpcalender.models.AllContestsItem;
@@ -21,6 +22,8 @@ import com.circledev.cpcalender.utils.ContestFilter;
 import com.circledev.cpcalender.viewmodels.MainViewModel;
 
 import java.util.List;
+
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
 public class MainFragment extends Fragment{
 
@@ -48,9 +51,12 @@ public class MainFragment extends Fragment{
     public void onViewCreated(@NonNull View view,Bundle savedInstanceState) {
         RecyclerView recyclerView = view.findViewById(R.id.calender_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.scheduleLayoutAnimation();
 
         mCalenderAdapter = mainViewModel.getCalenderAdapter();
         recyclerView.setAdapter(mCalenderAdapter);
+
+        OverScrollDecoratorHelper.setUpOverScroll(recyclerView, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
 
         mainViewModel.getAllContestItems().observe(getViewLifecycleOwner(), new Observer<List<AllContestsItem>>() {
             @Override
@@ -58,6 +64,7 @@ public class MainFragment extends Fragment{
                 mainViewModel.getCalenderAdapter().updateCalender(ContestFilter.mainFragmentContestFilter(contestsItemList));
                 view.findViewById(R.id.loading_anim).setVisibility(View.GONE);
                 Log.i("mainfragment", "onChanged: update calender");
+                recyclerView.scheduleLayoutAnimation();
             }
         });
 
