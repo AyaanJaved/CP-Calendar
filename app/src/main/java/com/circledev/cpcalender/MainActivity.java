@@ -1,51 +1,29 @@
 package com.circledev.cpcalender;
 
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.provider.CalendarContract;
+import android.view.MenuItem;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.SavedStateViewModelFactory;
-import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.provider.CalendarContract;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
-
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.toolbox.StringRequest;
+import com.circledev.cpcalender.adapters.PagerAdapter;
 import com.circledev.cpcalender.models.AllContestsItem;
-import com.circledev.cpcalender.models.CalenderAdapter;
-import com.circledev.cpcalender.models.PagerAdapter;
-import com.circledev.cpcalender.networking.VolleyRequest;
-import com.circledev.cpcalender.networking.VolleySingleton;
-import com.circledev.cpcalender.utils.StringToDate;
 import com.circledev.cpcalender.viewmodels.MainViewModel;
-import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
@@ -113,13 +91,29 @@ public class MainActivity extends AppCompatActivity {
             }
         }).attach();
 
-        mainViewModel.getOnItemClickLiveData().observe(this, new Observer<AllContestsItem>() {
+        mainViewModel.getOnCardItemClick().observe(this, new Observer<AllContestsItem>() {
             @Override
             public void onChanged(AllContestsItem item) {
                 Intent intent = new Intent(Intent.ACTION_INSERT);
                 intent.setData(CalendarContract.Events.CONTENT_URI);
                 intent.putExtra(CalendarContract.Events.TITLE, item.getName());
+                intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, item.getStart_time().getTime());
+                intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, item.getEnd_time().getTime());
+                intent.putExtra(CalendarContract.Events.DESCRIPTION, item.getUrl());
                 startActivity(intent);
+            }
+        });
+
+        mainViewModel.getOnSiteImageClick().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(s));
+                if (intent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getApplicationContext(), "No Browser Found" + s, Toast.LENGTH_LONG).show();
+                }
+
             }
         });
 

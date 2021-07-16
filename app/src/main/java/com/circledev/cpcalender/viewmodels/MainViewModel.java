@@ -1,28 +1,17 @@
 package com.circledev.cpcalender.viewmodels;
 
 import android.app.Application;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.AsyncTask;
-import android.provider.CalendarContract;
-import android.util.ArraySet;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.android.volley.Request;
-import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
+import com.circledev.cpcalender.adapters.CalenderAdapter;
 import com.circledev.cpcalender.models.AllContestsItem;
-import com.circledev.cpcalender.models.CalenderAdapter;
 import com.circledev.cpcalender.networking.VolleySingleton;
-import com.circledev.cpcalender.utils.StringToDate;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -33,7 +22,16 @@ import java.util.List;
 public class MainViewModel extends AndroidViewModel implements CalenderAdapter.OnClickListener{
     private MutableLiveData<List<AllContestsItem>> mAllContestItems;
 
-    private MutableLiveData<AllContestsItem> onItemClickLiveData;
+    private MutableLiveData<AllContestsItem> onCardItemClick;
+
+    public MutableLiveData<String> getOnSiteImageClick() {
+        if(onSiteImageClick == null) {
+            onSiteImageClick = new MutableLiveData<>();
+        }
+        return onSiteImageClick;
+    }
+
+    private MutableLiveData<String> onSiteImageClick;
 
     private CalenderAdapter calenderAdapter ;
     private CalenderAdapter codeChefAdapter;
@@ -59,11 +57,11 @@ public class MainViewModel extends AndroidViewModel implements CalenderAdapter.O
         return calenderAdapter;
     }
 
-    public MutableLiveData<AllContestsItem> getOnItemClickLiveData() {
-        if(onItemClickLiveData == null) {
-            onItemClickLiveData = new MutableLiveData<>();
+    public MutableLiveData<AllContestsItem> getOnCardItemClick() {
+        if( onCardItemClick == null) {
+            onCardItemClick = new MutableLiveData<>();
         }
-        return onItemClickLiveData;
+        return onCardItemClick;
     }
 
     public CalenderAdapter getCodeChefAdapter() {
@@ -127,9 +125,13 @@ public class MainViewModel extends AndroidViewModel implements CalenderAdapter.O
     }
 
     @Override
-    public void onClick(AllContestsItem item) {
+    public void onClick(AllContestsItem item, View view) {
         Log.i("viewmodel", "onClick: " + item.getName());
-        onItemClickLiveData.postValue(item);
+        if(view.getTag().equals(1)) {
+            onSiteImageClick.postValue(item.getUrl());
+        } else {
+            onCardItemClick.postValue(item);
+        }
     }
 
 //    @Override

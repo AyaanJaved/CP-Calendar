@@ -1,13 +1,12 @@
 package com.circledev.cpcalender.utils;
 
-import android.content.Context;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 public class StringToDate {
     public static Date stringToDate(String date){
@@ -27,13 +26,34 @@ public class StringToDate {
     public static String stringToHours(String duration) {
         if( duration.equals("-") )
             return "Undefined";
-        int durationInt = (int) Double.parseDouble(duration);
-            int h = durationInt / 3600;
-            int m = durationInt % 3600 / 60;
-            if(m==0) {
-                return h+" hours";
-            }
-            return h+" hours"+ " and " + m +" minutes";
+        int seconds = (int) Double.parseDouble(duration);
+//            int h = durationInt / 3600;
+//            int m = durationInt % 3600 / 60;
+//            if(m==0) {
+//                return h+" hours";
+//            }
+//            return h+" hours"+ " and " + m +" minutes";
+
+        int years = (int) TimeUnit.SECONDS.toDays(seconds)/365;
+        int day = (int) TimeUnit.SECONDS.toDays(seconds) - (years*365);
+        long hours = TimeUnit.SECONDS.toHours(seconds) -
+                TimeUnit.DAYS.toHours(day) - 8760*years;
+        long minute = TimeUnit.SECONDS.toMinutes(seconds) -
+                TimeUnit.DAYS.toMinutes(day) -
+                TimeUnit.HOURS.toMinutes(hours) - 525600*years;
+
+        StringBuilder stringBuilder = new StringBuilder();
+        if(years != 0) {
+            stringBuilder.append(years).append(" year(s) ");
+        }
+        if(day != 0)
+            stringBuilder.append(day).append(" day(s) ");
+        if(hours != 0)
+            stringBuilder.append(hours).append(" hours ");
+        if(minute != 0)
+            stringBuilder.append(minute).append(" minutes ");
+
+        return stringBuilder.toString();
     }
 
     public static String dateFormat(Date date) {

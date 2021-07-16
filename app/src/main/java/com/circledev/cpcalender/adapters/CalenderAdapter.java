@@ -1,27 +1,24 @@
-package com.circledev.cpcalender.models;
+package com.circledev.cpcalender.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.SwitchCompat;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.circledev.cpcalender.R;
+import com.circledev.cpcalender.models.AllContestsItem;
 import com.circledev.cpcalender.utils.CircularOutlineProvider;
-import com.circledev.cpcalender.utils.Constants;
 import com.circledev.cpcalender.utils.StringToDate;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import pl.droidsonroids.gif.GifImageView;
 
 
@@ -60,34 +57,34 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.Calend
 
         switch (contestsItem.getSite()) {
             case "CodeChef":
-                holder.imageView.setImageResource(R.drawable.codechef);
+                holder.siteImageView.setImageResource(R.drawable.codechef);
                 break;
             case "CodeForces":
-                holder.imageView.setImageResource(R.drawable.codeforeces);
+                holder.siteImageView.setImageResource(R.drawable.codeforeces);
                 break;
             case "TopCoder":
-                holder.imageView.setImageResource(R.drawable.topcoder);
+                holder.siteImageView.setImageResource(R.drawable.topcoder);
                 break;
             case "AtCoder":
-                holder.imageView.setImageResource(R.drawable.atcoder);
+                holder.siteImageView.setImageResource(R.drawable.atcoder);
                 break;
             case "HackerRank":
-                holder.imageView.setImageResource(R.drawable.hackerrank);
+                holder.siteImageView.setImageResource(R.drawable.hackerrank);
                 break;
             case "CS Academy":
-                holder.imageView.setImageResource(R.drawable.csacademy);
+                holder.siteImageView.setImageResource(R.drawable.csacademy);
                 break;
             case "HackerEarth":
-                holder.imageView.setImageResource(R.drawable.hackerearth);
+                holder.siteImageView.setImageResource(R.drawable.hackerearth);
                 break;
             case "Kick Start":
-                holder.imageView.setImageResource(R.drawable.kickstart);
+                holder.siteImageView.setImageResource(R.drawable.kickstart);
                 break;
             case "LeetCode":
-                holder.imageView.setImageResource(R.drawable.leetcode);
+                holder.siteImageView.setImageResource(R.drawable.leetcode);
                 break;
             case "Toph":
-                holder.imageView.setImageResource(R.drawable.toph);
+                holder.siteImageView.setImageResource(R.drawable.toph);
                 break;
         }
 
@@ -124,7 +121,7 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.Calend
         TextView durationTextView;
         TextView startDateTextView;
         TextView endDateTextView;
-        ImageView imageView;
+        CircleImageView siteImageView;
         View smallLine;
         View bigLine;
         ImageButton calenderButton;
@@ -140,8 +137,8 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.Calend
             durationTextView = itemView.findViewById(R.id.duration_text_view);
             startDateTextView = itemView.findViewById(R.id.start_date);
             endDateTextView = itemView.findViewById(R.id.end_date);
-            imageView = itemView.findViewById(R.id.imageView);
-            imageView.setOutlineProvider(new CircularOutlineProvider());
+            siteImageView = itemView.findViewById(R.id.site_image_view);
+            siteImageView.setOutlineProvider(new CircularOutlineProvider());
             smallLine = itemView.findViewById(R.id.small_line);
             calenderButton = itemView.findViewById(R.id.calender_button);
             bigLine = itemView.findViewById(R.id.big_line);
@@ -150,12 +147,16 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.Calend
             onClickListener = adapterOnClickListener;
 
             calenderButton.setOnClickListener(this);
+            calenderButton.setTag(3);
             cardView.setOnClickListener(this);
+            cardView.setTag(2);
+            siteImageView.setOnClickListener(this);
+            siteImageView.setTag(1);
         }
 
         @Override
         public void onClick(View v) {
-            onClickListener.onClick (contestsItemArrayList.get(getAdapterPosition()));
+            onClickListener.onClick (contestsItemArrayList.get(getAdapterPosition()), v);
         }
     }
 
@@ -164,12 +165,12 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.Calend
 
         public DateViewHolder(View itemView) {
             super(itemView);
-            dateTextView = itemView.findViewById(R.id.date_text_view);
+            dateTextView = itemView.findViewById(R.id.day_text_view);
         }
     }
 
     public interface OnClickListener{
-       void onClick(AllContestsItem item);
+       void onClick(AllContestsItem item, View view);
     }
 
 }

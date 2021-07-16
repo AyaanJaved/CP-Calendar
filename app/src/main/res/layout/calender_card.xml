@@ -13,8 +13,8 @@
         android:layout_marginTop="6dp"
         android:background="#90a4ae"
         app:layout_constraintBottom_toBottomOf="@+id/cardView"
-        app:layout_constraintEnd_toEndOf="@+id/imageView"
-        app:layout_constraintStart_toStartOf="@+id/imageView"
+        app:layout_constraintEnd_toEndOf="@+id/site_image_view"
+        app:layout_constraintStart_toStartOf="@+id/site_image_view"
         app:layout_constraintTop_toBottomOf="@+id/gifImageView" />
 
     <View
@@ -22,9 +22,9 @@
         android:layout_width="2dp"
         android:layout_height="0dp"
         android:background="#9A9496"
-        app:layout_constraintBottom_toTopOf="@+id/imageView"
-        app:layout_constraintEnd_toEndOf="@+id/imageView"
-        app:layout_constraintStart_toStartOf="@+id/imageView"
+        app:layout_constraintBottom_toTopOf="@+id/site_image_view"
+        app:layout_constraintEnd_toEndOf="@+id/site_image_view"
+        app:layout_constraintStart_toStartOf="@+id/site_image_view"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView
@@ -40,8 +40,8 @@
         app:cardElevation="4dp"
         app:cardUseCompatPadding="true"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="@+id/imageView">
+        app:layout_constraintStart_toEndOf="@+id/site_image_view"
+        app:layout_constraintTop_toTopOf="@+id/site_image_view">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/linearLayout2"
@@ -67,7 +67,7 @@
             <TextView
                 android:id="@+id/end_time"
                 android:layout_width="82dp"
-                android:layout_height="27dp"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:gravity="end"
                 android:textStyle="bold"
@@ -80,9 +80,9 @@
             <TextView
                 android:id="@+id/start_time"
                 android:layout_width="wrap_content"
-                android:layout_height="25dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="8dp"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
@@ -117,6 +117,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="8dp"
                 android:fontFamily="@font/lato_regular"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -128,25 +129,12 @@
                 android:id="@+id/calender_button"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
+                android:layout_marginEnd="8dp"
                 android:background="@color/grey"
                 android:scaleType="fitCenter"
-                android:src="@drawable/calender"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageButton"
-                app:layout_constraintTop_toTopOf="@+id/imageButton"
-                app:srcCompat="@drawable/calender" />
-
-            <ImageButton
-                android:id="@+id/imageButton"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginBottom="8dp"
-                android:background="@color/grey"
-                android:scaleType="centerCrop"
-                android:src="@drawable/link"
+                android:src="@drawable/bell_icon"
                 app:layout_constraintBottom_toBottomOf="@+id/duration_text_view"
-                app:layout_constraintStart_toStartOf="@+id/end_time"
-                app:layout_constraintTop_toTopOf="@+id/duration_text_view" />
+                app:layout_constraintEnd_toEndOf="parent" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -154,15 +142,18 @@
     </androidx.cardview.widget.CardView>
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imageView"
+        android:id="@+id/site_image_view"
         android:layout_width="43dp"
         android:layout_height="46dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:elevation="8dp"
         android:src="@drawable/codechef"
+        android:focusable="true"
         app:civ_border_color="@color/cardview_dark_background"
+        android:foreground="@drawable/my_selector"
         app:layout_constraintStart_toStartOf="parent"
+        android:clickable="true"
         app:layout_constraintTop_toTopOf="parent" />
 
     <pl.droidsonroids.gif.GifImageView
@@ -173,8 +164,8 @@
         android:layout_marginTop="6dp"
         android:scaleType="centerInside"
         android:src="@drawable/live_animation"
-        app:layout_constraintEnd_toEndOf="@+id/imageView"
-        app:layout_constraintStart_toStartOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintEnd_toEndOf="@+id/site_image_view"
+        app:layout_constraintStart_toStartOf="@+id/site_image_view"
+        app:layout_constraintTop_toBottomOf="@+id/site_image_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

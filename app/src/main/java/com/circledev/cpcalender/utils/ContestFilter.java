@@ -4,6 +4,7 @@ import com.circledev.cpcalender.models.AllContestsItem;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class ContestFilter {
     static public final String MAIN_FRAGMENT_FILTER = "main";
@@ -23,9 +24,11 @@ public class ContestFilter {
 
         for(AllContestsItem item: allContestsItemList) {
             int durationInt = (int) Double.parseDouble(item.getDuration());
-            if(durationInt < 172900) {
+            if(durationInt < TimeUnit.DAYS.toSeconds(5) ) {
                 contestsItems.add(item);
             }
+            if(durationInt < TimeUnit.DAYS.toSeconds(32) && item.getSite().equals(CODE_CHEF_FILTER) )
+                contestsItems.add(item);
         }
         return contestsItems;
     }

@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.circledev.cpcalender.R;
+import com.circledev.cpcalender.adapters.CalenderAdapter;
 import com.circledev.cpcalender.models.AllContestsItem;
-import com.circledev.cpcalender.models.CalenderAdapter;
 import com.circledev.cpcalender.utils.ContestFilter;
 import com.circledev.cpcalender.viewmodels.MainViewModel;
 
