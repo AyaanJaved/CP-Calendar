@@ -23,6 +23,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
+
 public class CodeForcesFragment extends Fragment{
     MainViewModel mainViewModel;
 
@@ -46,6 +48,7 @@ public class CodeForcesFragment extends Fragment{
         RecyclerView recyclerView = view.findViewById(R.id.codeforces_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        OverScrollDecoratorHelper.setUpOverScroll(recyclerView, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
 
         CalenderAdapter calenderAdapter = mainViewModel.getCodeForcesAdapter();
         recyclerView.setAdapter(calenderAdapter);

@@ -25,6 +25,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
+
 public class LeetCodeFragment extends Fragment {
     private static final String TAG = "LeetCodeFragment";
     MainViewModel mainViewModel;
@@ -49,6 +51,7 @@ public class LeetCodeFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.leetcode_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        OverScrollDecoratorHelper.setUpOverScroll(recyclerView, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
 
         CalenderAdapter calenderAdapter = mainViewModel.getLeetCodeAdapter();
         recyclerView.setAdapter(calenderAdapter);

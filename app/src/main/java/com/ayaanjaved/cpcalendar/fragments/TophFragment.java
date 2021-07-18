@@ -25,6 +25,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
+
 public class TophFragment extends Fragment {
     private static final String TAG = "TophFragment";
     MainViewModel mainViewModel;
@@ -49,6 +51,7 @@ public class TophFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.toph_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        OverScrollDecoratorHelper.setUpOverScroll(recyclerView, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
 
         CalenderAdapter calenderAdapter = mainViewModel.getTophAdapter();
         recyclerView.setAdapter(calenderAdapter);
