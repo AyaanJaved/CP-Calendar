@@ -1,6 +1,7 @@
 package com.ayaanjaved.cpcalendar.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +22,11 @@ import com.ayaanjaved.cpcalendar.viewmodels.MainViewModel;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class HackerRankFragment extends Fragment{
+public class LeetCodeAdapter extends Fragment {
+    private static final String TAG = "LeetCodeFragment";
     MainViewModel mainViewModel;
 
     @Override
@@ -37,27 +40,28 @@ public class HackerRankFragment extends Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        return inflater.inflate(R.layout.fragment_hackerrank, container, false);
+        return inflater.inflate(R.layout.fragment_leetcode, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
 
-        RecyclerView recyclerView = view.findViewById(R.id.hackerank_recycler_view);
+        RecyclerView recyclerView = view.findViewById(R.id.leetcode_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
 
-        CalenderAdapter calenderAdapter = mainViewModel.getHackerRankAdapter();
+        CalenderAdapter calenderAdapter = mainViewModel.getLeetCodeAdapter();
         recyclerView.setAdapter(calenderAdapter);
 
         mainViewModel.getAllContestItems().observe(getViewLifecycleOwner(), new Observer<List<AllContestsItem>>() {
             @Override
             public void onChanged(List<AllContestsItem> allContestsItemList) {
-                calenderAdapter.updateCalender(ContestFilter.contestsFilter(allContestsItemList, ContestFilter.HACKERRANK_FILTER));
+                List<AllContestsItem> contestsItems = ContestFilter.contestsFilter((ArrayList<AllContestsItem>) allContestsItemList, ContestFilter.LEETCODE_FILTER);
+                calenderAdapter.updateCalender(contestsItems);
+                Log.i(TAG, "onChanged: ");
             }
         });
 
         super.onViewCreated(view, savedInstanceState);
     }
-
 }

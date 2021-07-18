@@ -37,6 +37,12 @@ public class MainViewModel extends AndroidViewModel implements CalenderAdapter.O
     private CalenderAdapter codeChefAdapter;
     private CalenderAdapter codeForcesAdapter;
     private CalenderAdapter hackerrankAdapter;
+    private CalenderAdapter atcoderAdapter;
+    private CalenderAdapter topCoderAdapter;
+    private CalenderAdapter kickstartAdapter;
+    private CalenderAdapter leetCodeAdapter;
+    private CalenderAdapter csacademyAdapter;
+    private CalenderAdapter tophAdapter;
 
 //    private ContestDao contestDao;
 //    protected List<AllContestsItem> subsContests;
@@ -78,11 +84,53 @@ public class MainViewModel extends AndroidViewModel implements CalenderAdapter.O
         return codeForcesAdapter;
     }
 
-    public CalenderAdapter getHackerankAdapter() {
+    public CalenderAdapter getHackerRankAdapter() {
         if(hackerrankAdapter == null) {
             hackerrankAdapter = new CalenderAdapter(this);
         }
         return hackerrankAdapter;
+    }
+
+    public CalenderAdapter getAtcoderAdapter() {
+        if(atcoderAdapter == null) {
+            atcoderAdapter = new CalenderAdapter(this);
+        }
+        return atcoderAdapter;
+    }
+
+    public CalenderAdapter getTopCoderAdapter() {
+        if(topCoderAdapter == null) {
+            topCoderAdapter = new CalenderAdapter(this);
+        }
+        return topCoderAdapter;
+    }
+
+    public CalenderAdapter getKickstartAdapter() {
+        if(kickstartAdapter == null) {
+            kickstartAdapter = new CalenderAdapter(this);
+        }
+        return kickstartAdapter;
+    }
+
+    public CalenderAdapter getLeetCodeAdapter() {
+        if(leetCodeAdapter == null) {
+            leetCodeAdapter = new CalenderAdapter(this);
+        }
+        return leetCodeAdapter;
+    }
+
+    public CalenderAdapter getCsacademyAdapter() {
+        if(csacademyAdapter == null) {
+            csacademyAdapter = new CalenderAdapter(this);
+        }
+        return csacademyAdapter;
+    }
+
+    public CalenderAdapter getTophAdapter() {
+        if(tophAdapter == null) {
+            tophAdapter = new CalenderAdapter(this);
+        }
+        return tophAdapter;
     }
 
     public MainViewModel(Application application) {
@@ -116,9 +164,10 @@ public class MainViewModel extends AndroidViewModel implements CalenderAdapter.O
 
                     Log.i("PostActivity", "posts loaded.");
                     Log.i("PostActivity", "onResponse: ");
-//                        mCalenderAdapter.updateCalender(allContestsItems);
                 }
-                , error -> Log.d("response", "onErrorResponse: " + error.getMessage()));
+                , error -> {Log.d("response", "onErrorResponse: " + error.getMessage());
+                    mAllContestItems.postValue(null);
+        });
 
 
         VolleySingleton.getInstance(getApplication()).addToRequestQueue(stringRequest);

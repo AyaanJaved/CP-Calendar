@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +25,7 @@ import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
@@ -74,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
             public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
                 switch (position) {
                     case 0:
-                        tab.setText("All Contests");
+                        tab.setText("All");
                         break;
                     case 1:
                         tab.setText("CodeChef");
@@ -84,6 +86,12 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case 3:
                         tab.setText("HackerRank");
+                        break;
+                    case 4:
+                        tab.setText("AtCoder");
+                        break;
+                    case 5:
+                        tab.setText("HackerEarth");
                         break;
                     default:
                         //
@@ -114,6 +122,18 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "No Browser Found" + s, Toast.LENGTH_LONG).show();
                 }
 
+            }
+        });
+
+        mainViewModel.getAllContestItems().observe(this, new Observer<List<AllContestsItem>>() {
+            @Override
+            public void onChanged(List<AllContestsItem> allContestsItems) {
+                if(allContestsItems == null) {
+                    findViewById(R.id.viewPager2).setVisibility(View.GONE);
+                    findViewById(R.id.no_internet_imageview).setVisibility(View.VISIBLE);
+                    findViewById(R.id.no_internet_tv1).setVisibility(View.VISIBLE);
+                    findViewById(R.id.no_internet_tv2).setVisibility(View.VISIBLE);
+                }
             }
         });
 
