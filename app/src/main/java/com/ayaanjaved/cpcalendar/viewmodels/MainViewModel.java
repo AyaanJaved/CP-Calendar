@@ -32,6 +32,7 @@ public class MainViewModel extends AndroidViewModel implements CalenderAdapter.O
     }
 
     private MutableLiveData<String> onSiteImageClick;
+    private MutableLiveData<Boolean> response;
 
     private CalenderAdapter calenderAdapter ;
     private CalenderAdapter codeChefAdapter;
@@ -46,6 +47,12 @@ public class MainViewModel extends AndroidViewModel implements CalenderAdapter.O
 
 //    private ContestDao contestDao;
 //    protected List<AllContestsItem> subsContests;
+
+    public MutableLiveData<Boolean> getResponse() {
+        if(response == null)
+            response = new MutableLiveData<>();
+        return response;
+    }
 
     public MutableLiveData<List<AllContestsItem>> getAllContestItems() {
         if(mAllContestItems == null) {
@@ -166,7 +173,7 @@ public class MainViewModel extends AndroidViewModel implements CalenderAdapter.O
                     Log.i("PostActivity", "onResponse: ");
                 }
                 , error -> {Log.d("response", "onErrorResponse: " + error.getMessage());
-                    mAllContestItems.postValue(null);
+                response.postValue(false);
         });
 
 

@@ -11,9 +11,14 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import com.ayaanjaved.cpcalendar.fragments.AtCoderFragment;
 import com.ayaanjaved.cpcalendar.fragments.CodeChefFragment;
 import com.ayaanjaved.cpcalendar.fragments.CodeForcesFragment;
+import com.ayaanjaved.cpcalendar.fragments.CsAcademyFragment;
 import com.ayaanjaved.cpcalendar.fragments.HackerEarthFragment;
 import com.ayaanjaved.cpcalendar.fragments.HackerRankFragment;
+import com.ayaanjaved.cpcalendar.fragments.KickstartFragment;
+import com.ayaanjaved.cpcalendar.fragments.LeetCodeFragment;
 import com.ayaanjaved.cpcalendar.fragments.MainFragment;
+import com.ayaanjaved.cpcalendar.fragments.TopCoderFragment;
+import com.ayaanjaved.cpcalendar.fragments.TophFragment;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -37,11 +42,21 @@ public class PagerAdapter extends FragmentStateAdapter {
             case 2:
                 return new CodeForcesFragment();
             case 3:
-                return new HackerRankFragment();
-            case 4:
                 return new AtCoderFragment();
+            case 4:
+                return new TopCoderFragment();
             case 5:
                 return new HackerEarthFragment();
+            case 6:
+                return new LeetCodeFragment();
+            case 7:
+                return new KickstartFragment();
+            case 8:
+                return new HackerRankFragment();
+            case 9:
+                return new TophFragment();
+            case 10:
+                return new CsAcademyFragment();
             default:
                 return null;
         }
@@ -49,6 +64,6 @@ public class PagerAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        return 6;
+        return 11;
     }
 }

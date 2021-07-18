@@ -25,7 +25,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LeetCodeAdapter extends Fragment {
+public class LeetCodeFragment extends Fragment {
     private static final String TAG = "LeetCodeFragment";
     MainViewModel mainViewModel;
 

@@ -25,7 +25,6 @@ import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
@@ -85,13 +84,28 @@ public class MainActivity extends AppCompatActivity {
                         tab.setText("CodeForces");
                         break;
                     case 3:
-                        tab.setText("HackerRank");
+                        tab.setText("AtCoder");
                         break;
                     case 4:
-                        tab.setText("AtCoder");
+                        tab.setText("Topcoder");
                         break;
                     case 5:
                         tab.setText("HackerEarth");
+                        break;
+                    case 6:
+                        tab.setText("LeetCode");
+                        break;
+                    case 7:
+                        tab.setText("Kickstart");
+                        break;
+                    case 8:
+                        tab.setText("HackerRank");
+                        break;
+                    case 9:
+                        tab.setText("Toph");
+                        break;
+                    case 10:
+                        tab.setText("CsAcademy");
                         break;
                     default:
                         //
@@ -125,10 +139,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mainViewModel.getAllContestItems().observe(this, new Observer<List<AllContestsItem>>() {
+        mainViewModel.getResponse().observe(this, new Observer<Boolean>() {
             @Override
-            public void onChanged(List<AllContestsItem> allContestsItems) {
-                if(allContestsItems == null) {
+            public void onChanged(Boolean response) {
+                if( !response ) {
                     findViewById(R.id.viewPager2).setVisibility(View.GONE);
                     findViewById(R.id.no_internet_imageview).setVisibility(View.VISIBLE);
                     findViewById(R.id.no_internet_tv1).setVisibility(View.VISIBLE);

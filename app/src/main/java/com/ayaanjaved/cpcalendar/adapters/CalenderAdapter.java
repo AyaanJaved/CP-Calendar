@@ -38,14 +38,6 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.Calend
     }
 
     @Override
-    public int getItemViewType(int position) {
-        if(position%5 == 0) {
-            return 0;
-        }
-        return 1;
-    }
-
-    @Override
     public void onBindViewHolder(CalenderAdapter.CalenderViewHolder holder, int position) {
         AllContestsItem contestsItem =  contestsItemArrayList.get(position);
         holder.contestNameTextView.setText( contestsItem.getName());
