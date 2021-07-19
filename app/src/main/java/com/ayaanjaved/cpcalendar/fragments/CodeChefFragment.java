@@ -25,6 +25,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
+
 public class CodeChefFragment extends Fragment{
 
     private static final String TAG = "CodeChefFragment";
@@ -49,6 +51,8 @@ public class CodeChefFragment extends Fragment{
 
         RecyclerView recyclerView = view.findViewById(R.id.codechef_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        OverScrollDecoratorHelper.setUpOverScroll(recyclerView, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
 
 
         CalenderAdapter calenderAdapter = mainViewModel.getCodeChefAdapter();

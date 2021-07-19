@@ -25,6 +25,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
+
 public class KickstartFragment extends Fragment {
     private static final String TAG = "KickstartFragment";
     MainViewModel mainViewModel;
@@ -49,6 +51,7 @@ public class KickstartFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.kickstart_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        OverScrollDecoratorHelper.setUpOverScroll(recyclerView, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
 
         CalenderAdapter calenderAdapter = mainViewModel.getKickstartAdapter();
         recyclerView.setAdapter(calenderAdapter);

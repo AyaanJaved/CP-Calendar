@@ -49,7 +49,6 @@ public class MainFragment extends Fragment{
     public void onViewCreated(@NonNull View view,Bundle savedInstanceState) {
         RecyclerView recyclerView = view.findViewById(R.id.calender_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.scheduleLayoutAnimation();
 
         mCalenderAdapter = mainViewModel.getCalenderAdapter();
         recyclerView.setAdapter(mCalenderAdapter);
@@ -62,7 +61,6 @@ public class MainFragment extends Fragment{
                 mainViewModel.getCalenderAdapter().updateCalender(ContestFilter.mainFragmentContestFilter(contestsItemList));
                 view.findViewById(R.id.loading_anim).setVisibility(View.GONE);
                 Log.i("mainfragment", "onChanged: update calender");
-                recyclerView.scheduleLayoutAnimation();
             }
         });
 
