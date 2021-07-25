@@ -1,7 +1,6 @@
 package com.ayaanjaved.cpcalendar.fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,7 +62,6 @@ public class CodeChefFragment extends Fragment{
             public void onChanged(List<AllContestsItem> allContestsItemList) {
                 List<AllContestsItem> contestsItems = ContestFilter.contestsFilter((ArrayList<AllContestsItem>) allContestsItemList, ContestFilter.CODE_CHEF_FILTER);
                 calenderAdapter.updateCalender(contestsItems);
-                Log.i(TAG, "onChanged: ");
             }
         });
 

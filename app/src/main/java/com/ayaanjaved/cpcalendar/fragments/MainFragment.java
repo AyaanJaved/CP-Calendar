@@ -1,7 +1,6 @@
 package com.ayaanjaved.cpcalendar.fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,7 +59,6 @@ public class MainFragment extends Fragment{
             public void onChanged(List<AllContestsItem> contestsItemList) {
                 mainViewModel.getCalenderAdapter().updateCalender(ContestFilter.mainFragmentContestFilter(contestsItemList));
                 view.findViewById(R.id.loading_anim).setVisibility(View.GONE);
-                Log.i("mainfragment", "onChanged: update calender");
             }
         });
 
